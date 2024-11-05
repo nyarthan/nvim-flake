@@ -8,6 +8,7 @@
 
   outputs =
     inputs@{
+      self,
       flake-parts,
       nixpkgs,
       ...
@@ -31,5 +32,26 @@
         }:
         {
         };
+
+      flake = {
+        nixosModules = {
+          nvim-flake = ./modules/nixos;
+          default = self.nixosModules.nvim-flake;
+        };
+        darwinModules = {
+          nvim-flake = ./modules/darwin;
+          default = self.darwinModules.nvim-flake;
+        };
+        homeManagerModules = {
+          nvim-flake = ./modules/home-manager;
+          default = self.homeManagerModules.nvim-flake;
+        };
+        flakeModules = {
+          nvim-flake = ./modules/flake;
+          default = self.flakeModules.nvim-flake;
+        };
+
+        treesitter-dependencies = import ./pkgs/treesitter-dependencies.nix;
+      };
     };
 }
